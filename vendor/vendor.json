@@ -1,0 +1,21 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "yqF125xVSkmfLpIVGrLlfE05IUk=",
+			"path": "github.com/golang/protobuf/proto",
+			"revision": "130e6b02ab059e7b717a096f397c5b60111cae74",
+			"revisionTime": "2017-09-20T22:06:47Z"
+		},
+		{
+			"path": "tensorflow/core/example",
+			"revision": ""
+		},
+		{
+			"path": "tensorflow/core/framework",
+			"revision": ""
+		}
+	],
+	"rootPath": "github.com/recogni/tfutils"
+}
