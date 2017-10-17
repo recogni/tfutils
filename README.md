@@ -6,7 +6,7 @@ A collection of `tensorflow` helpers useful in `golang`.
 
 ## Motivation
 
-[tensorflow's](https://github.com/tensorflow/tensorflow) `TFRecord` format can be read and written to using the native [RecordWriter](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/lib/io/record_writer.cc) and [RecordReader](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/lib/io/record_reader.cc).  While this is exposed to your go environment via tensorflow, this is not handy for building simple translation tools which might need to read or operate on images to generate `tfrecords` -- enter `tfutils`. 
+[tensorflow's](https://github.com/tensorflow/tensorflow) `TFRecord` format can be read and written to using the native [RecordWriter](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/lib/io/record_writer.cc) and [RecordReader](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/lib/io/record_reader.cc).  While this is exposed to your go environment via tensorflow, this is not handy for building simple translation tools which might need to read or operate on images to generate `tfrecords` -- enter `tfutils`.
 
 ## What you get (so far ...)
 

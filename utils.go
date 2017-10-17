@@ -10,14 +10,13 @@ import (
 	"errors"
 	"hash/crc32"
 	"os"
-
-	"fmt"
+	// "fmt"
 )
 
 ////////////////////////////////////////////////////////////////////////////////
 
 const (
-	crc32Polynomial = uint32(0x1EDC6F41)
+	crc32Polynomial = crc32.Castagnoli
 	crc32MaskDelta  = uint32(0xa282ead8)
 )
 
@@ -34,8 +33,8 @@ func CrcUnmask(v uint32) uint32 {
 	return ((r >> 17) | (r << 15))
 }
 
-func MaskedCrc(bs []byte) uint32 {
-	return CrcMask(crc32.Checksum(bs, crc))
+func MaskedCrc(bs []byte, n int64) uint32 {
+	return CrcMask(crc32.Checksum(bs[:n], crc))
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,9 +56,9 @@ func newEntry(data []byte) (*recordEntry, error) {
 	binary.LittleEndian.PutUint64(bs[0:], length)
 	return &recordEntry{
 		length:    length,
-		lengthCrc: MaskedCrc(bs),
+		lengthCrc: MaskedCrc(bs, 8),
 		data:      data,
-		dataCrc:   MaskedCrc(data),
+		dataCrc:   MaskedCrc(data, int64(length)),
 	}, nil
 }
 
@@ -121,8 +120,6 @@ func (rw *RecordWriter) WriteRecord(data []byte) error {
 	if err != nil {
 		return err
 	}
-
-	fmt.Printf("RECORD: %#v\n", e)
 
 	bs, err := e.Marshal()
 	if err != nil {
