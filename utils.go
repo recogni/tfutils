@@ -10,7 +10,6 @@ import (
 	"errors"
 	"hash/crc32"
 	"os"
-	// "fmt"
 )
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +96,7 @@ type RecordWriterOptions struct {
 // output file.  The `dstfile` is the path to the tfrecord file, and the
 // `options` stores a copy of the writer options.
 type RecordWriter struct {
+	f       *os.File
 	dstfile string
 	options *RecordWriterOptions
 }
@@ -104,12 +104,13 @@ type RecordWriter struct {
 // NewWriter returns a new instance of a tfrecrod writer.
 func NewWriter(path string, options *RecordWriterOptions) (*RecordWriter, error) {
 	// Try to open the file, if this does not work the writer should fail.
-	_, err := os.OpenFile(path, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return nil, err
 	}
 
 	return &RecordWriter{
+		f:       f,
 		dstfile: path,
 		options: options,
 	}, nil
@@ -126,13 +127,7 @@ func (rw *RecordWriter) WriteRecord(data []byte) error {
 		return err
 	}
 
-	f, err := os.OpenFile(rw.dstfile, os.O_APPEND|os.O_WRONLY, 0600)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-
-	_, err = f.Write(bs)
+	_, err = rw.f.Write(bs)
 	return err
 }
 
@@ -140,6 +135,9 @@ func (rw *RecordWriter) Close() error {
 	// Nothing to do since we open and close the file handle on each write.
 	// We might have some extra stuff to handle here in the ZLIB compression
 	// is enabled.
+	if rw.f != nil {
+		rw.f.Close()
+	}
 	return nil
 }
 
