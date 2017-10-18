@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/golang/protobuf/proto"
+
 	// Import the "example" and "feature" protocol buffers
 	tf "tensorflow/core/example"
 )
@@ -42,4 +44,11 @@ func GetFeaturesFromMap(m map[string]interface{}) (*tf.Features, error) {
 		fs[k] = f
 	}
 	return &tf.Features{Feature: fs}, nil
+}
+
+func GetTFRecordStringForFeatures(fs *tf.Features) ([]byte, error) {
+	ex := &tf.Example{
+		Features: fs,
+	}
+	return proto.Marshal(ex)
 }
