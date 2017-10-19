@@ -46,9 +46,24 @@ func GetFeaturesFromMap(m map[string]interface{}) (*tf.Features, error) {
 	return &tf.Features{Feature: fs}, nil
 }
 
+// GetTFRecordStringForFeatures returns a serialized version of an "Example"
+// protobuffer for writing using a TF RecordWriter.
 func GetTFRecordStringForFeatures(fs *tf.Features) ([]byte, error) {
 	ex := &tf.Example{
 		Features: fs,
 	}
 	return proto.Marshal(ex)
+}
+
+func GetFeatureMapFromTFRecord(data []byte) (map[string]interface{}, error) {
+	m := map[string]interface{}{}
+	ex := tf.Example{}
+	if err := proto.Unmarshal(data, &ex); err != nil {
+		return nil, err
+	}
+
+	for k, v := range ex.Features.Feature {
+		fmt.Printf("KEY: %s VAL: %#v\n", k, v)
+	}
+	return m, nil
 }
