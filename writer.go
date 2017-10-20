@@ -28,7 +28,7 @@ type RecordWriter struct {
 // NewWriter returns a new instance of a tfrecrod writer.
 func NewWriter(path string, options *RecordWriterOptions) (*RecordWriter, error) {
 	// Try to open the file, if this does not work the writer should fail.
-	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0600)
+	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
 		return nil, err
 	}

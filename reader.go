@@ -73,6 +73,7 @@ func (rr *RecordReader) readNextRecord() ([]byte, error) {
 	if err := binary.Read(rr._reader, binary.LittleEndian, &rec.lengthCrc); err != nil {
 		return nil, err
 	}
+
 	if MaskedCrc(hbs, 8) != rec.lengthCrc {
 		return nil, errors.New("crc mismatch on record length")
 	}
@@ -99,7 +100,7 @@ func (rr *RecordReader) readNextRecord() ([]byte, error) {
 	}
 	if MaskedCrc(rec.data, int64(rec.length)) != rec.dataCrc {
 		return nil, errors.New("crc mismatch on data")
-	}
+	}4
 
 	return rec.data, nil
 }
