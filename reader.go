@@ -100,7 +100,7 @@ func (rr *RecordReader) readNextRecord() ([]byte, error) {
 	}
 	if MaskedCrc(rec.data, int64(rec.length)) != rec.dataCrc {
 		return nil, errors.New("crc mismatch on data")
-	}4
+	}
 
 	return rec.data, nil
 }
