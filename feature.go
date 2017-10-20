@@ -56,7 +56,6 @@ func GetTFRecordStringForFeatures(fs *tf.Features) ([]byte, error) {
 }
 
 func GetFeatureMapFromTFRecord(data []byte) (*tf.Features, error) {
-	m := map[string]interface{}{}
 	ex := tf.Example{}
 	if err := proto.Unmarshal(data, &ex); err != nil {
 		return nil, err
