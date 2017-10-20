@@ -15,6 +15,10 @@
 		{
 			"path": "tensorflow/core/framework",
 			"revision": ""
+		},
+		{
+			"path": "tensorflow/core/protobuf",
+			"revision": ""
 		}
 	],
 	"rootPath": "github.com/recogni/tfutils"
